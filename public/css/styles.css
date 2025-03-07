@@ -1,6 +1,272 @@
-/******* Change Box Model ***************/
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-image: url('/images/site/small_check.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
+
+/* Header Styles */
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: white;
+  text-decoration: none;
+}
+
+.site-title {
+  text-decoration: none;
+  color: #004d99;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.account-link {
+  color: #000;
+  text-decoration: none;
+}
+
+/* Navigation Styles */
+.navigation {
+  background-color: #2d3748;
+  padding: 10px 0;
+}
+/* Remove underline from all links inside the header */
+.site-header a {
+  text-decoration: none;
+}
+
+/* Optional: Add hover effect for better UX */
+.site-header a:hover {
+  text-decoration: none;
+}
+
+.nav-list {
+  display: flex;
+  justify-content: space-around;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-item{
+  color: white;
+  text-decoration: none;
+  padding: 10px 15px;
+}
+
+/* Main Content Styles */
+.main-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Welcome Section */
+.welcome-section {
+  position: relative;
+  border: 2px solid #00a8e8;
+  border-radius: 5px;
+  background-color: white;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.welcome-title {
+  margin-top: 0;
+}
+
+/* Car Display */
+.car-display {
+  background-image: url('/images/vehicles/delorean.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 500px;
+  color: white; /* To ensure text is visible against the image */
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8); /* Optional: adds shadow to text for better visibility */
+}
+
+.car-features {
+  color: #007cad;
+  margin-right: 20px;
+}
+
+.car-features p {
+  margin: 5px 0;
+}
+
+
+/* Call to Action Button */
+.cta-button {
+  background-color: #007cad;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+/* Upgrades Section */
+.upgrades-section {
+ 
+  background-color: white;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.upgrades-list {
+  width: 48%;
+}
+
+.reviews-list {
+  width: 48%;
+}
+
+/* Upgrade Items */
+.upgrade-items {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.upgrade-item {
+  background-color: #007cad;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.upgrade-item img {
+  max-width: 80px;
+  max-height: 80px;
+  margin-bottom: 5px;
+}
+
+.upgrade-link {
+  color: white;
+  text-decoration: none;
+}
+
+/* Reviews */
+.review-item {
+  margin-bottom: 10px;
+}
+
+/* Checkerboard Background */
+.checkerboard-bg {
+  background-image: linear-gradient(45deg, #000 25%, transparent 25%), 
+                    linear-gradient(-45deg, #000 25%, transparent 25%), 
+                    linear-gradient(45deg, transparent 75%, #000 75%), 
+                    linear-gradient(-45deg, transparent 75%, #000 75%);
+  background-size: 50px 50px;
+  background-position: 0 0, 0 25px, 25px -25px, -25px 0px;
+  padding: 10px;
+}
+
+.container {
+  background-color: white;
+ 
+}
+
+/* Footer */
+.site-footer {
+  
+  padding: 10px;
+  font-size: 0.8em;
+  margin-top: 20px;
+}
+
+/* Add these media queries at the end of your existing CSS */
+
+/* Media Queries for Mobile Responsiveness */
+@media screen and (max-width: 767px) {
+  /* Header and Navigation adjustments */
+  .site-header {
+    padding: 10px;
+  }
+  
+  .site-title {
+    font-size: 1.3em;
+  }
+  
+  /* Car display adjustments */
+  .car-display {
+    flex-direction: column;
+    align-items: flex-start;
+    height: 200px;
+    width: 400px;
+  }
+  
+  .car-features {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+  
+  
+  /* Button adjustment */
+  .cta-button {
+    padding: 8px 15px;
+  }
+  
+  /* Upgrades and Reviews section adjustments */
+  .upgrades-section {
+    flex-direction: column;
+    padding: 10px;
+  }
+  
+  .upgrades-list, .reviews-list {
+    width: 100%;
+  }
+  
+  .reviews-list {
+    margin-top: 20px;
+    order: -1; /* This moves reviews above upgrades */
+  }
+  
+  /* Adjust upgrade items for mobile */
+  .upgrade-items {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5px;
+  }
+  
+  .upgrade-item {
+    padding: 5px;
+  }
+  
+  .upgrade-item img {
+    max-width: 70px;
+    max-height: 70px;
+  }
+  
+  /* Headings */
+  h1, h2 {
+    font-size: 1.2em;
+  }
+  
+  /* Container spacing */
+  .welcome-section, .container {
+    padding: 10px;
+    margin-bottom: 0px;
+  }
+  
+  /* Main content padding */
+  .main-content {
+    padding: 10px;
+  }
+  
+  /* Remove border for mobile layout */
+  .welcome-section {
+    border: none;
+  }
+}
+
