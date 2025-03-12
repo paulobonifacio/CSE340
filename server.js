@@ -23,6 +23,8 @@ app.set("layout", "./layouts/layout") // not at views root
  * Routes
  *************************/
 app.use(static)
+// Inventory routes
+app.use("/inv", inventoryRoute)
 
 /* ***********************
  * Local Server Information
