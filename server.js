@@ -11,8 +11,8 @@ const env = require("dotenv").config();
 const app = express();
 const static = require("./routes/static");
 const baseController = require("./controllers/baseController");
-
 const inventoryRoute = require("./routes/inventoryRoute");
+const utilities = require("./utilities/index"); 
 
 /* ***********************
  * View Engine and Templates
@@ -45,14 +45,19 @@ const host = process.env.HOST || "localhost";
 * Place after all other middleware
 *************************/
 app.use(async (err, req, res, next) => {
-  let nav = await utilities.getNav()
-  console.error(`Error at: "${req.originalUrl}": ${err.message}`)
-  res.render("errors/error", {
-    title: err.status || 'Server Error',
-    message: err.message,
-    nav
-  })
-})
+  try {
+    let nav = await utilities.getNav(); // Chamada corrigida
+    console.error(`Error at: "${req.originalUrl}": ${err.message}`);
+    res.render("errors/error", {
+      title: err.status || 'Server Error',
+      message: err.message,
+      nav
+    });
+  } catch (error) {
+    console.error("Failed to load navigation", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
 
 /* ***********************
  * Log statement to confirm server operation
