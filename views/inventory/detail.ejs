@@ -1,0 +1,41 @@
+
+
+<div class="vehicle-detail-container">
+  <h1><%= vehicle.inv_make %> <%= vehicle.inv_model %></h1>
+  
+  <div class="vehicle-content">
+    <div class="vehicle-image">
+      <img src="<%= vehicle.inv_image %>" alt="<%= vehicle.inv_make %> <%= vehicle.inv_model %>">
+    </div>
+    
+    <div class="vehicle-info">
+      <h2><%= vehicle.inv_make %> <%= vehicle.inv_model %> Details</h2>
+      
+      <p class="price"><strong>Price:</strong> $<%= vehicle.inv_price.toLocaleString() %></p>
+      
+      <p class="description"><strong>Description:</strong> <%= vehicle.inv_description %></p>
+      
+      <p><strong>Color:</strong> <%= vehicle.inv_color %></p>
+      
+      <p><strong>Miles:</strong> <%= vehicle.inv_miles.toLocaleString() %></p>
+      
+      <% if (vehicle.inv_year) { %>
+      <p><strong>Year:</strong> <%= vehicle.inv_year %></p>
+      <% } %>
+      
+      <% if (vehicle.inv_fuel) { %>
+      <p><strong>Fuel Type:</strong> <%= vehicle.inv_fuel %></p>
+      <% } %>
+      
+      <% if (vehicle.inv_transmission) { %>
+      <p><strong>Transmission:</strong> <%= vehicle.inv_transmission %></p>
+      <% } %>
+      
+      <% if (vehicle.classification_name) { %>
+      <p><strong>Category:</strong> <%= vehicle.classification_name %></p>
+      <% } %>
+    </div>
+  </div>
+  
+  <a href="/inventory" class="back-link">← Back to Inventory</a>
+</div>

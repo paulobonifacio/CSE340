@@ -1,9 +1,32 @@
-<% if (title) { %>
-    <h1><%= title %></h1>
-    <% } else {
-      res.redirect('/')
-    } %>
+<!-- <h1>Inventory List</h1>
+<p>Selected Category: <%= selectedCategory %></p>
 
-    <%# messages() %>
+<% if (inventory.length > 0) { %>
+  <ul>
+    <% inventory.forEach(vehicle => { %>
+      <li>
+        <h2><%= vehicle.inv_make %> <%= vehicle.inv_model %> (<%= vehicle.inv_year %>)</h2>
+        <p><%= vehicle.inv_description %></p>
+        <img src="<%= vehicle.inv_image %>" alt="<%= vehicle.inv_make %> <%= vehicle.inv_model %>">
+        <p>Price: $<%= vehicle.inv_price %></p>
+        <p>Mileage: <%= vehicle.inv_miles %></p>
+        <p>Color: <%= vehicle.inv_color %></p>
+      </li>
+    <% }); %>
+  </ul>
+<% } else { %>
+  <p>No vehicles found for this category.</p>
+<% } %>
+ -->
+ <div class="inventory-container">
+  <% inventory.forEach(vehicle => { %>
+      <div class="inventory-card">
+          <a href="/inv/detail/<%= vehicle.inv_id %>">
+              <img src="<%= vehicle.inv_thumbnail %>" alt="<%= vehicle.inv_make %> <%= vehicle.inv_model %>">
+              <h3><%= vehicle.inv_make %> <%= vehicle.inv_model %></h3>
+              <p class="price">$<%= vehicle.inv_price.toLocaleString() %></p>
+          </a>
+      </div>
+  <% }) %>
+</div>
 
-    <%- grid %>

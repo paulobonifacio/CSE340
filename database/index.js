@@ -1,37 +1,18 @@
-const { Pool } = require("pg")
-require("dotenv").config()
-/* ***************
- * Connection Pool
- * SSL Object needed for local testing of app
- * But will cause problems in production environment
- * If - else will make determination which to use
- * *************** */
-let pool
-if (process.env.NODE_ENV == "development") {
-  pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: {
-      rejectUnauthorized: false,
-    },
-})
+const { Pool } = require("pg");
+require("dotenv").config(); // Carregar variáveis do .env
 
-// Added for troubleshooting queries
-// during development
-module.exports = {
-  async query(text, params) {
-    try {
-      const res = await pool.query(text, params)
-      console.log("executed query", { text })
-      return res
-    } catch (error) {
-      console.error("error in query", { text })
-      throw error
-    }
+// Criar a conexão com o banco de dados
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false, // Evita erros de SSL no Render
   },
-}
-} else {
-  pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-  })
-  module.exports = pool
-}
+});
+
+// Testar conexão ao iniciar
+pool.connect()
+  .then(() => console.log("✅ Conectado ao banco de dados!"))
+  .catch(err => console.error("❌ Erro ao conectar ao banco de dados:", err));
+
+// Exportar pool para ser usado no projeto
+module.exports = pool;
