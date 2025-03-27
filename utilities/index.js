@@ -11,32 +11,45 @@ Util.getNav = async function () {
     if (!data || data.length === 0) {
       console.warn("⚠️ No classifications found. Using default navigation.");
       return `
-        <ul>
-          <li><a href="/" title="Home page">Home</a></li>
-        </ul>`;
+        <nav class="navigation">
+          <ul class="nav-list">
+            <li class="nav-item"><a href="/">Home</a></li>
+          </ul>
+        </nav>`;
     }
 
-    let list = "<ul>";
-    list += '<li><a href="/" title="Home page">Home</a></li>';
+    let navHTML = `
+      <nav class="navigation">
+        <ul class="nav-list">
+          <li class="nav-item"><a href="/">Home</a></li>
+    `;
+    
     data.forEach((row) => {
-      list += `<li>
-        <a href="/inv/type/${row.classification_id}" 
-           title="See our inventory of ${row.classification_name} vehicles">
-           ${row.classification_name}
-        </a>
-      </li>`;
+      navHTML += `
+          <li class="nav-item">
+            <a href="/inventory?category=${row.classification_name.toLowerCase()}">
+              ${row.classification_name}
+            </a>
+          </li>
+      `;
     });
-    list += "</ul>";
-    return list;
+    
+    navHTML += `
+        </ul>
+      </nav>
+    `;
+    
+    return navHTML;
   } catch (error) {
     console.error("❌ Error fetching classifications:", error);
     return `
-      <ul>
-        <li><a href="/" title="Home page">Home</a></li>
-      </ul>`;
+      <nav class="navigation">
+        <ul class="nav-list">
+          <li class="nav-item"><a href="/">Home</a></li>
+        </ul>
+      </nav>`;
   }
 };
-
 
 /* **************************************
  * Build the classification view grid
@@ -66,5 +79,6 @@ Util.buildClassificationGrid = async function (data) {
 
   return grid;
 };
+
 
 module.exports = Util;
