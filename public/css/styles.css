@@ -515,3 +515,121 @@ body {
         height: 50%;
     }
 }
+
+/* Base Styles */
+.classification-container {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.classification-wrapper {
+    background-color: #00A4E4;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+.classification-title {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.classification-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.classification-label {
+    color: white;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.classification-input {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.classification-submit {
+    background-color:rgb(0, 0, 0);
+    color: #ffffff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.classification-submit:hover {
+    background-color: #f0f0f0;
+    transform: scale(1.02);
+}
+
+.classification-back-link {
+    display: block;
+    text-align: center;
+    color: white;
+    text-decoration: none;
+    margin-top: 15px;
+    transition: color 0.3s ease;
+}
+
+.classification-back-link:hover {
+    text-decoration: underline;
+    color: #f0f0f0;
+}
+
+/* Responsive Adjustments */
+@media screen and (max-width: 480px) {
+    .classification-wrapper {
+        padding: 20px;
+        margin: 0 10px;
+    }
+
+    .classification-title {
+        font-size: 20px;
+    }
+
+    .classification-input {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .classification-submit {
+        padding: 8px 12px;
+    }
+}
+
+/* Accessibility and Focus States */
+.classification-input:focus,
+.classification-submit:focus {
+    outline: 3px solid rgba(255, 255, 255, 0.5);
+    outline-offset: 2px;
+}
+
+/* Added Subtle Animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.classification-wrapper {
+    animation: fadeIn 0.5s ease-out;
+}
