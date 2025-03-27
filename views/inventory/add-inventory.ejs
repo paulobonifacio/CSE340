@@ -1,0 +1,77 @@
+<div class="classification-container">
+       <div class="classification-wrapper">
+           <h1 class="classification-title">Add New Inventory Item</h1>
+           
+    
+           <form action="/inventory/add-inventory" method="POST" class="classification-form">
+
+                <label class="classification-label" for="classification_id">Classification:</label>
+                <%- classificationList %> 
+            
+          
+               
+               <!-- Vehicle Make -->
+               <label for="inv_make" class="classification-label">Make:</label>
+               <input type="text" id="inv_make" name="inv_make" 
+                      class="classification-input" required 
+                      value="<%= typeof inv_make !== 'undefined' ? inv_make : '' %>" 
+                      minlength="3" maxlength="50" placeholder="Company Name">
+               
+               <!-- Vehicle Model -->
+               <label for="inv_model" class="classification-label">Model:</label>
+               <input type="text" id="inv_model" name="inv_model" 
+                      class="classification-input" required 
+                      value="<%= typeof inv_model !== 'undefined' ? inv_model : '' %>" 
+                      minlength="3" maxlength="50" placeholder="Vehicle Model Name)">
+               
+               <!-- Vehicle Year -->
+               <label for="inv_year" class="classification-label">Year:</label>
+               <input type="number" id="inv_year" name="inv_year" 
+                      class="classification-input" required 
+                      min="1900" max="<%= new Date().getFullYear() + 1 %>" 
+                      value="<%= typeof inv_year !== 'undefined' ? inv_year : '' %>" placeholder="Registration Year">
+               
+               <!-- Vehicle Description -->
+               <label for="inv_description" class="classification-label">Description:</label>
+               <textarea id="inv_description" name="inv_description" 
+                         class="classification-input" required
+                         minlength="20" maxlength="500" placeholder="Write About the Vehicle spec etc"><%= typeof inv_description !== 'undefined' ? inv_description : '' %></textarea>
+               
+               <!-- Vehicle Image Path -->
+               <label for="inv_image" class="classification-label">Image Path:</label>
+               <input type="text" id="inv_image" name="inv_image" 
+                      class="classification-input" required
+                      value="<%= typeof inv_image !== 'undefined' ? inv_image : '/images/no-image.png' %>">
+               
+               <!-- Vehicle Thumbnail Path -->
+               <label for="inv_thumbnail" class="classification-label">Thumbnail Path:</label>
+               <input type="text" id="inv_thumbnail" name="inv_thumbnail" 
+                      class="classification-input" required
+                      value="<%= typeof inv_thumbnail !== 'undefined' ? inv_thumbnail : '/images/no-image-tn.png' %>">
+               
+               <!-- Vehicle Price -->
+               <label for="inv_price" class="classification-label">Price:</label>
+               <input type="number" id="inv_price" name="inv_price" 
+                      class="classification-input" required 
+                      step="0.01" min="0" 
+                      value="<%= typeof inv_price !== 'undefined' ? inv_price : '' %> " placeholder="price">
+               
+               <!-- Vehicle Miles -->
+               <label for="inv_miles" class="classification-label">Miles:</label>
+               <input type="number" id="inv_miles" name="inv_miles" 
+                      class="classification-input" required 
+                      min="0" 
+                      value="<%= typeof inv_miles !== 'undefined' ? inv_miles : '' %>" placeholder="Mileage">
+               
+               <!-- Vehicle Color -->
+               <label for="inv_color" class="classification-label">Color:</label>
+               <input type="text" id="inv_color" name="inv_color" 
+                      class="classification-input" required 
+                      value="<%= typeof inv_color !== 'undefined' ? inv_color : '' %>" 
+                      minlength="3" maxlength="20" placeholder="e.g Red or blue">
+               
+               <button type="submit" class="classification-submit">Add Inventory</button>
+           </form>
+           <a href="/inventory/management" class="back-link">← Back to Management</a>
+       </div>
+   </div>

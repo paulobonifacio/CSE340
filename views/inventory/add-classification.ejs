@@ -1,0 +1,51 @@
+<div class="classification-container">
+   
+
+
+    <div class="classification-wrapper">
+        <h1 class="classification-title">Add New Classification</h1>
+        <form class="classification-form" action="/inventory/add-classification" method="POST" id="classificationForm">
+            <label for="classification_name" class="classification-label">Classification Name:</label>
+            <input 
+                type="text" 
+                id="classification_name" 
+                name="classification_name" 
+                class="classification-input" 
+                required
+                pattern="^[a-zA-Z0-9]+$"
+                title="No spaces or special characters allowed"
+                maxlength="30"
+                placeholder="Enter letters and numbers only (e.g., Sedan2023)"
+            >
+            <div id="classificationError" class="error-message"></div>
+            <button type="submit" class="classification-submit">Add Classification</button>
+        </form>
+        <a href="/inventory/management" class="back-link">← Back to Management</a>
+    </div>
+</div>
+
+<script>
+document.getElementById('classificationForm').addEventListener('submit', function(e) {
+    const input = document.getElementById('classification_name');
+    const errorDiv = document.getElementById('classificationError');
+    
+    // Reset error state
+    errorDiv.textContent = '';
+    input.classList.remove('error');
+    
+    // Validate input
+    if (!input.value.trim()) {
+        errorDiv.textContent = 'Classification name is required';
+        input.classList.add('error');
+        e.preventDefault();
+        return;
+    }
+    
+    if (!/^[a-zA-Z0-9]+$/.test(input.value)) {
+        errorDiv.textContent = 'No spaces or special characters allowed';
+        input.classList.add('error');
+        e.preventDefault();
+        return;
+    }
+});
+</script>
