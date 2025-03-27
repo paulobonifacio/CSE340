@@ -23,7 +23,16 @@ const pool = require("./database");
 app.use(express.json()); // Parse JSON requests
 app.use(express.urlencoded({ extended: true })); // Handle form submissions
 app.use(express.static(path.join(__dirname, "public"))); // Serve static files
-
+app.use(async (req, res, next) => {
+  try {
+    const nav = await utilities.getNav(req.url);
+    res.locals.nav = nav;
+    next();
+  } catch (error) {
+    console.error("Navigation middleware error:", error);
+    next();
+  }
+});
 /* ***********************
  * View Engine and Templates
  *************************/
@@ -36,7 +45,7 @@ app.set("layout", "./layouts/layout"); // Not at views root
  *************************/
 app.use(staticRoutes);
 // Inventory routes
-app.use("/inv", inventoryRoute);
+app.use("/inventory", inventoryRoute);
 
 // Index route
 app.get("/", baseController.buildHome);
@@ -128,7 +137,25 @@ app.use(async (err, req, res, next) => {
     res.status(500).send("Internal Server Error");
   }
 });
-
+// Temporary debug route (add just before error handlers)
+app.get('/routes', (req, res) => {
+  const routes = [];
+  app._router.stack.forEach((middleware) => {
+    if (middleware.route) {
+      routes.push(`${middleware.route.stack[0].method.toUpperCase()} ${middleware.route.path}`);
+    } else if (middleware.name === 'router') {
+      middleware.handle.stack.forEach((handler) => {
+        if (handler.route) {
+          routes.push(`${handler.route.stack[0].method.toUpperCase()} /inv${handler.route.path}`);
+        }
+      });
+    }
+  });
+  res.json({
+    message: 'Registered routes',
+    routes: routes
+  });
+});
 /* ***********************
  * Log statement to confirm server operation
  *************************/
