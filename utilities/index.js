@@ -1,3 +1,5 @@
+console.log("✅ utilities/index.js carregado");
+
 const invModel = require("../models/inventory-model");
 
 module.exports = {
