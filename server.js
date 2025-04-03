@@ -11,11 +11,12 @@ const expressLayouts = require("express-ejs-layouts");
 const env = require("dotenv").config();
 const path = require("path");
 const cookieParser = require("cookie-parser"); 
+const dns = require("dns"); // ✅ Novo
 const app = express();
 const staticRoutes = require("./routes/static");
 const baseController = require("./controllers/baseController");
 const inventoryRoute = require("./routes/inventoryRoute");
-const accountRoutes = require("./routes/accountRoute"); // ✅ Adicionado
+const accountRoutes = require("./routes/accountRoute");
 const utilities = require("./utilities/index");
 const pool = require("./database");
 
@@ -56,9 +57,7 @@ app.set("layout", "./layouts/layout");
  *************************/
 app.use(staticRoutes);
 app.use("/inventory", inventoryRoute);
-app.use("/account", accountRoutes); // ✅ Adicionado
-
-// Home route
+app.use("/account", accountRoutes);
 app.get("/", baseController.buildHome);
 
 /* ***********************
@@ -108,7 +107,19 @@ app.get("/inventory", async (req, res) => {
 });
 
 /* ***********************
- * File Not Found Route - must be last route in list
+ * DNS Test Route
+ *************************/
+app.get("/test-db-dns", (req, res) => {
+  dns.lookup("dpg-cvbfhulsvqrc73c6qv30-a.frankfurt-postgres.render.com", (err, address, family) => {
+    if (err) {
+      return res.status(500).send("❌ DNS Lookup Failed: " + err.message);
+    }
+    res.send(`✅ DNS resolved to ${address} (IPv${family})`);
+  });
+});
+
+/* ***********************
+ * File Not Found Route
  *************************/
 app.use((err, req, res, next) => {
   console.error("❌ Server error:", err);
@@ -121,7 +132,6 @@ app.use(async (req, res, next) => {
 
 /* ***********************
  * Express Error Handler
- * Place after all other middleware
  *************************/
 app.use(async (err, req, res, next) => {
   try {
@@ -161,13 +171,12 @@ app.get('/routes', (req, res) => {
 
 /* ***********************
  * Local Server Information
- * Values from .env (environment) file
  *************************/
 const port = process.env.PORT || 5500;
 const host = process.env.HOST || "localhost";
 
 /* ***********************
- * Log statement to confirm server operation
+ * Start Server
  *************************/
 app.listen(port, () => {
   console.log(`🚀 App listening on http://${host}:${port}`);
