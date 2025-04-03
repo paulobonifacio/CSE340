@@ -19,11 +19,13 @@ const inventoryRoute = require("./routes/inventoryRoute");
 const accountRoutes = require("./routes/accountRoute");
 const utilities = require("./utilities/index");
 const pool = require("./database");
+const { setAccountData } = require("./middleware/authMiddleware"); 
 
 /* ***********************
  * Middleware
  *************************/
 app.use(cookieParser());
+app.use(setAccountData); /
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
@@ -39,15 +41,10 @@ app.use(async (req, res, next) => {
   }
 });
 
+// Define loggedin para o header
 app.use((req, res, next) => {
   const token = req.cookies?.jwt;
   res.locals.loggedin = !!token;
-  next();
-});
-
-// ✅ Garante que accountData sempre exista nas views
-app.use((req, res, next) => {
-  res.locals.accountData = req.accountData || {};
   next();
 });
 
