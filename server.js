@@ -10,7 +10,7 @@ const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
 const env = require("dotenv").config();
 const path = require("path");
-const cookieParser = require("cookie-parser"); // ✅ Adicionado aqui
+const cookieParser = require("cookie-parser"); 
 const app = express();
 const staticRoutes = require("./routes/static");
 const baseController = require("./controllers/baseController");
@@ -21,12 +21,11 @@ const pool = require("./database");
 /* ***********************
  * Middleware
  *************************/
-app.use(cookieParser()); // ✅ Adicionado aqui
-app.use(express.json()); 
-app.use(express.urlencoded({ extended: true })); 
-app.use(express.static(path.join(__dirname, "public"))); 
+app.use(cookieParser()); // ✅ Novo
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, "public")));
 
-// Adiciona nav dinamicamente para todas as views
 app.use(async (req, res, next) => {
   try {
     const nav = await utilities.getNav(req.url);
@@ -36,6 +35,13 @@ app.use(async (req, res, next) => {
     console.error("Navigation middleware error:", error);
     next();
   }
+});
+
+// ✅ Define loggedin for all views
+app.use((req, res, next) => {
+  const token = req.cookies?.jwt;
+  res.locals.loggedin = !!token;
+  next();
 });
 
 /* ***********************
