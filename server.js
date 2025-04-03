@@ -162,3 +162,10 @@ app.get('/routes', (req, res) => {
 app.listen(port, () => {
   console.log(`🚀 App listening on http://${host}:${port}`);
 });
+
+const utilities = require('./utilities');
+
+app.use(async (req, res, next) => {
+  res.locals.nav = await utilities.getNav();
+  next();
+});
