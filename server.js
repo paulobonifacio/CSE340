@@ -11,7 +11,7 @@ const expressLayouts = require("express-ejs-layouts");
 const env = require("dotenv").config();
 const path = require("path");
 const cookieParser = require("cookie-parser"); 
-const dns = require("dns"); // ✅ Novo
+const dns = require("dns");
 const app = express();
 const staticRoutes = require("./routes/static");
 const baseController = require("./controllers/baseController");
@@ -42,6 +42,12 @@ app.use(async (req, res, next) => {
 app.use((req, res, next) => {
   const token = req.cookies?.jwt;
   res.locals.loggedin = !!token;
+  next();
+});
+
+// ✅ Garante que accountData sempre exista nas views
+app.use((req, res, next) => {
+  res.locals.accountData = req.accountData || {};
   next();
 });
 
@@ -79,12 +85,7 @@ app.get("/inventory", async (req, res) => {
       params.push(category);
     }
 
-    console.log("🟢 Running SQL Query:", query);
-    console.log("🟢 Query Parameters:", params);
-
     const { rows } = await pool.query(query, params);
-
-    console.log("🟢 Query Result:", rows);
 
     if (rows.length === 0) {
       return res.render("inventory/classification", { 
