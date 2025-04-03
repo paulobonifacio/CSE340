@@ -1,0 +1,198 @@
+<main class="login-container">
+  <h1>Register</h1>
+  
+  <% if (message) { %>
+    <div class="alert alert-success"><%= message %></div>
+  <% } %>
+  
+  <% if (errors) { %>
+    <div class="alert alert-danger">
+      <ul>
+        <% errors.forEach(error => { %>
+          <li><%= error %></li>
+        <% }) %>
+      </ul>
+    </div>
+  <% } %>
+
+  <div class="login-panel">
+    <form action="/account/register" method="post" id="registerForm">
+      <div class="form-group">
+        <label for="account_firstname">First Name:</label>
+        <input type="text" id="account_firstname" name="account_firstname" required
+               class="form-control" 
+               value="<%= locals.accountData ? locals.accountData.account_firstname : '' %>">
+        <div id="firstnameError" class="error-message"></div>
+      </div>
+      
+      <div class="form-group">
+        <label for="account_lastname">Last Name:</label>
+        <input type="text" id="account_lastname" name="account_lastname" required
+               class="form-control"
+               value="<%= locals.accountData ? locals.accountData.account_lastname : '' %>">
+        <div id="lastnameError" class="error-message"></div>
+      </div>
+      
+      <div class="form-group">
+        <label for="account_email">Email Address:</label>
+        <input type="email" id="account_email" name="account_email" required
+               class="form-control"
+               value="<%= locals.accountData ? locals.accountData.account_email : '' %>">
+        <div id="emailError" class="error-message"></div>
+      </div>
+      
+      <div class="form-group">
+        <label for="account_password">Password</label>
+        <input type="password" id="account_password" name="account_password" required
+               class="form-control">
+        <div id="passwordError" class="error-message"></div>
+        <div class="password-hint">
+          Passwords must be minimum of 12 characters and include:
+          <ul id="passwordRequirements">
+            <li id="lengthReq">✓ 12+ characters</li>
+            <li id="upperReq">✓ 1 uppercase letter</li>
+            <li id="lowerReq">✓ 1 lowercase letter</li>
+            <li id="numberReq">✓ 1 number</li>
+            <li id="specialReq">✓ 1 special character</li>
+          </ul>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="account_type">Account Type:</label>
+        <select id="account_type" name="account_type" style="width: 93%;" class="form-control" required>
+          <option value="Regular">Client</option>
+          <option value="Admin">Administrator</option>
+        </select>
+      </div>
+      
+      <button type="button" class="show-password-btn">Show Password</button>
+      
+      <div>
+        <button type="submit" class="login-btn">Register</button>
+      </div>
+      
+      <div class="signup-link">
+        Already have an account? <a href="/account/login">Login</a>
+      </div>
+    </form>
+  </div>
+</main>
+
+<style>
+  .error-message {
+    color: red;
+    font-size: 1rem;
+    margin-top: 0.25rem;
+    min-height: 1rem;
+    border: black;
+  }
+  #passwordRequirements {
+    margin: 0.5rem 0 0 1rem;
+    padding: 0;
+    list-style-type: none;
+  }
+  #passwordRequirements li {
+    color: #000000;
+  }
+  #passwordRequirements li:before {
+    content: "✗ ";
+    color: red;
+  }
+  #passwordRequirements li.valid:before {
+    content: "✓ ";
+    color: rgb(0, 253, 0);
+  }
+  .form-control.error {
+    border-color: red;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Existing show password functionality
+    const showPasswordBtn = document.querySelector('.show-password-btn');
+    const passwordField = document.getElementById('account_password');
+    
+    if (showPasswordBtn && passwordField) {
+      showPasswordBtn.addEventListener('click', function() {
+        if (passwordField.type === 'password') {
+          passwordField.type = 'text';
+          showPasswordBtn.textContent = 'Hide Password';
+        } else {
+          passwordField.type = 'password';
+          showPasswordBtn.textContent = 'Show Password';
+        }
+      });
+    }
+
+    // New validation functionality
+    const form = document.getElementById('registerForm');
+    
+    form.addEventListener('submit', function(e) {
+      e.preventDefault(); // Prevent default form submission
+      
+      // Clear previous errors
+      document.querySelectorAll('.error-message').forEach(el => el.textContent = '');
+      document.querySelectorAll('.form-control').forEach(el => el.classList.remove('error'));
+      
+      let isValid = true;
+      
+      // Validate required fields
+      const inputs = form.querySelectorAll('input[required], select[required]');
+      inputs.forEach(input => {
+        if (!input.value.trim()) {
+          document.getElementById(`${input.id}Error`).textContent = 'This field is required';
+          input.classList.add('error');
+          isValid = false;
+        }
+      });
+      
+      // Validate email format
+      const email = document.getElementById('account_email').value;
+      if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        document.getElementById('emailError').textContent = 'Please enter a valid email';
+        document.getElementById('account_email').classList.add('error');
+        isValid = false;
+      }
+      
+      // Validate password
+      const password = passwordField.value;
+      if (password) {
+        const hasLength = password.length >= 12;
+        const hasUpper = /[A-Z]/.test(password);
+        const hasLower = /[a-z]/.test(password);
+        const hasNumber = /[0-9]/.test(password);
+        const hasSpecial = /[^A-Za-z0-9]/.test(password);
+        
+        document.getElementById('lengthReq').className = hasLength ? 'valid' : '';
+        document.getElementById('upperReq').className = hasUpper ? 'valid' : '';
+        document.getElementById('lowerReq').className = hasLower ? 'valid' : '';
+        document.getElementById('numberReq').className = hasNumber ? 'valid' : '';
+        document.getElementById('specialReq').className = hasSpecial ? 'valid' : '';
+        
+        if (!hasLength || !hasUpper || !hasLower || !hasNumber || !hasSpecial) {
+          document.getElementById('passwordError').textContent = 
+            'Password does not meet all requirements';
+          passwordField.classList.add('error');
+          isValid = false;
+        }
+      }
+      
+      // If valid, submit the form
+      if (isValid) {
+        form.submit();
+      }
+    });
+    
+    // Real-time password requirement indicators
+    passwordField.addEventListener('input', function() {
+      const password = passwordField.value;
+      
+      document.getElementById('lengthReq').className = password.length >= 12 ? 'valid' : '';
+      document.getElementById('upperReq').className = /[A-Z]/.test(password) ? 'valid' : '';
+      document.getElementById('lowerReq').className = /[a-z]/.test(password) ? 'valid' : '';
+      document.getElementById('numberReq').className = /[0-9]/.test(password) ? 'valid' : '';
+      document.getElementById('specialReq').className = /[^A-Za-z0-9]/.test(password) ? 'valid' : '';
+    });
+  });
+</script>

@@ -1,0 +1,32 @@
+
+<main class="account-management">
+  <div class="welcome-section">
+    <h2>Welcome <%= accountData.account_firstname %></h2>
+    
+    <div class="account-actions">
+      <a href="/account/update/<%= accountData.account_id %>" class="btn btn-primary">
+        Update Profile
+      </a>
+      
+      <% if (accountData.account_type === 'Admin') { %>
+        <a href="/inventory/management" class="btn btn-secondary">
+          Inventory Management
+        </a>
+      <% } %>
+      
+      <a href="/account/logout" class="btn btn-outline-danger">
+        Logout
+      </a>
+    </div>
+  </div>
+
+  <div class="account-info">
+    <h3>Your Information</h3>
+    <ul class="info-list">
+      <li><strong>Name:</strong> <%= accountData.account_firstname %> <%= accountData.account_lastname %></li>
+      <li><strong>Email:</strong> <%= accountData.account_email %></li>
+      <li><strong>Account Type:</strong> <%= accountData.account_type %></li>
+    </ul>
+  </div>
+</main>
+

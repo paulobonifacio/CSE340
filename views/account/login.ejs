@@ -1,0 +1,53 @@
+<body>
+    <div class="login-container">
+      <h1>Login</h1>
+      <form action="/account/login" method="POST">
+        
+      <div class="login-panel">
+        <div class="form-group">
+          <label for="email">Email Address:</label>
+          <input type="email" id="email" name="account_email" class="form-control">
+        </div>
+        
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="account_password" class="form-control">
+        </div>
+        
+        <div class="password-hint">
+          Passwords must be minimum of 12 characters and include 1 capital letter, 1 number and 1 special character.
+        </div>
+        
+        <button type="button" class="show-password-btn">Show Password</button>
+        
+        <div>
+          <button type="submit" class="login-btn">Login</button>
+        </div>
+        
+        <div class="signup-link">
+          No account? <a href="/account/register">Sign-up</a>
+        </div>
+      </div>
+      
+    </form>
+    </div>
+  
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const showPasswordBtn = document.querySelector('.show-password-btn');
+        const passwordField = document.getElementById('password');
+        
+        if (showPasswordBtn && passwordField) {
+          showPasswordBtn.addEventListener('click', function() {
+            if (passwordField.type === 'password') {
+              passwordField.type = 'text';
+              showPasswordBtn.textContent = 'Hide Password';
+            } else {
+              passwordField.type = 'password';
+              showPasswordBtn.textContent = 'Show Password';
+            }
+          });
+        }
+      });
+    </script>
+  </body>   
