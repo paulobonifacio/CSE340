@@ -15,13 +15,14 @@ const app = express();
 const staticRoutes = require("./routes/static");
 const baseController = require("./controllers/baseController");
 const inventoryRoute = require("./routes/inventoryRoute");
+const accountRoutes = require("./routes/accountRoute"); // ✅ Adicionado
 const utilities = require("./utilities/index");
 const pool = require("./database");
 
 /* ***********************
  * Middleware
  *************************/
-app.use(cookieParser()); // ✅ Novo
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
@@ -37,7 +38,6 @@ app.use(async (req, res, next) => {
   }
 });
 
-// ✅ Define loggedin for all views
 app.use((req, res, next) => {
   const token = req.cookies?.jwt;
   res.locals.loggedin = !!token;
@@ -56,6 +56,7 @@ app.set("layout", "./layouts/layout");
  *************************/
 app.use(staticRoutes);
 app.use("/inventory", inventoryRoute);
+app.use("/account", accountRoutes); // ✅ Adicionado
 
 // Home route
 app.get("/", baseController.buildHome);
