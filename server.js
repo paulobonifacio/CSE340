@@ -10,6 +10,7 @@ const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
 const env = require("dotenv").config();
 const path = require("path");
+const cookieParser = require("cookie-parser"); // ✅ Adicionado aqui
 const app = express();
 const staticRoutes = require("./routes/static");
 const baseController = require("./controllers/baseController");
@@ -20,9 +21,10 @@ const pool = require("./database");
 /* ***********************
  * Middleware
  *************************/
-app.use(express.json()); // Parse JSON requests
-app.use(express.urlencoded({ extended: true })); // Handle form submissions
-app.use(express.static(path.join(__dirname, "public"))); // Serve static files
+app.use(cookieParser()); // ✅ Adicionado aqui
+app.use(express.json()); 
+app.use(express.urlencoded({ extended: true })); 
+app.use(express.static(path.join(__dirname, "public"))); 
 
 // Adiciona nav dinamicamente para todas as views
 app.use(async (req, res, next) => {
@@ -41,7 +43,7 @@ app.use(async (req, res, next) => {
  *************************/
 app.set("view engine", "ejs");
 app.use(expressLayouts);
-app.set("layout", "./layouts/layout"); // Not at views root
+app.set("layout", "./layouts/layout");
 
 /* ***********************
  * Routes
