@@ -6,7 +6,7 @@
     <div class="welcome-section main-content" id="wrapper">
         <%- include('../partials/header') %>
          <!-- Replace the navigation include with the dynamic nav -->
-         <%- nav %>
+         <%- typeof nav !== 'undefined' ? nav : '' %>
 
         <main class="main-content">
             <%- body %>
