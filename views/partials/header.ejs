@@ -5,16 +5,18 @@
   <div style="text-decoration: none;" class="account-link" id="tools">
     <% if (loggedin) { %>
       <!-- Displayed when logged in -->
-      <span class="user-welcome">
-        <a href="/account" title="Account">
-          Welcome <%= accountData.account_firstname %>
-        </a>
-        <% if (accountData.account_type === 'Employee' || accountData.account_type === 'Admin') { %>
-          <a href="/inv/management" class="back-link"></a>
-        <% } %>
-        <span class="separator">|</span>
-        <a href="/account/logout" title="Logout">Logout</a>
-      </span>
+      <% if (typeof accountData !== 'undefined' && accountData) { %>
+        <span class="user-welcome">
+          <a href="/account" title="Account">
+            Welcome <%= accountData.account_firstname %>
+          </a>
+          <% if (accountData.account_type === 'Employee' || accountData.account_type === 'Admin') { %>
+            <a href="/inv/management" class="back-link"></a>
+          <% } %>
+          <span class="separator">|</span>
+          <a href="/account/logout" title="Logout">Logout</a>
+        </span>
+      <% } %>
     <% } else { %>
       <!-- Displayed when not logged in -->
       <a title="Click to log in" href="/account/login">My Account</a>
