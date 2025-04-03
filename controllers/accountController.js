@@ -3,9 +3,6 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const utilities = require('../utilities');
 
-/* ****************************************
- *  Deliver login view
- * *************************************** */
 async function buildLogin(req, res, next) {
   try {
     res.render('account/login', {
@@ -19,13 +16,8 @@ async function buildLogin(req, res, next) {
   }
 }
 
-/* ****************************************
- * Process login request
- * *************************************** */
 async function accountLogin(req, res, next) {
   try {
-    console.log('Login attempt with:', req.body);
-
     const { account_email, account_password } = req.body;
 
     const errors = [];
@@ -63,21 +55,18 @@ async function accountLogin(req, res, next) {
       });
     }
 
-    const token = jwt.sign(
-      {
-        account_id: account.account_id,
-        account_firstname: account.account_firstname,
-        account_lastname: account.account_lastname,
-        account_email: account.account_email,
-        account_type: account.account_type
-      },
-      process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: '1h' }
-    );
+    const token = jwt.sign({
+      account_id: account.account_id,
+      account_firstname: account.account_firstname,
+      account_lastname: account.account_lastname,
+      account_email: account.account_email,
+      account_type: account.account_type
+    }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
 
     res.cookie('jwt', token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: true,
+      sameSite: 'Lax',
       maxAge: 3600000
     });
 
@@ -89,9 +78,6 @@ async function accountLogin(req, res, next) {
   }
 }
 
-/* ****************************************
- *  Deliver registration view
- * *************************************** */
 async function buildRegister(req, res, next) {
   try {
     res.render('account/register', {
@@ -105,13 +91,8 @@ async function buildRegister(req, res, next) {
   }
 }
 
-/* ****************************************
- *  Process registration
- * *************************************** */
 async function registerAccount(req, res, next) {
   try {
-    console.log("📦 Dados recebidos no registro:", req.body);
-
     const { account_firstname, account_lastname, account_email, account_password } = req.body;
     let account_type = req.body.account_type;
 
@@ -156,17 +137,19 @@ async function registerAccount(req, res, next) {
     );
 
     if (result) {
-      const token = jwt.sign(
-        {
-          account_id: result.account_id,
-          account_firstname: result.account_firstname,
-          account_type: result.account_type
-        },
-        process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: '1h' }
-      );
+      const token = jwt.sign({
+        account_id: result.account_id,
+        account_firstname: result.account_firstname,
+        account_type: result.account_type
+      }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
 
-      res.cookie('jwt', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
+      res.cookie('jwt', token, {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'Lax',
+        maxAge: 3600000
+      });
+
       return res.redirect('/account');
     } else {
       throw new Error('Registration failed');
@@ -177,9 +160,6 @@ async function registerAccount(req, res, next) {
   }
 }
 
-/* ****************************************
- * Build Account Update View
- * *************************************** */
 async function buildUpdate(req, res, next) {
   try {
     const accountData = await accountModel.getAccountById(req.params.accountId);
@@ -195,9 +175,6 @@ async function buildUpdate(req, res, next) {
   }
 }
 
-/* ****************************************
- * Update Account Information
- * *************************************** */
 async function updateAccount(req, res, next) {
   try {
     const { account_id, account_firstname, account_lastname, account_email } = req.body;
@@ -236,29 +213,27 @@ async function updateAccount(req, res, next) {
 
     const updatedAccount = await accountModel.getAccountById(account_id);
 
-    const token = jwt.sign(
-      {
-        account_id: updatedAccount.account_id,
-        account_firstname: updatedAccount.account_firstname,
-        account_lastname: updatedAccount.account_lastname,
-        account_email: updatedAccount.account_email,
-        account_type: updatedAccount.account_type
-      },
-      process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: '1h' }
-    );
-    
+    const token = jwt.sign({
+      account_id: updatedAccount.account_id,
+      account_firstname: updatedAccount.account_firstname,
+      account_lastname: updatedAccount.account_lastname,
+      account_email: updatedAccount.account_email,
+      account_type: updatedAccount.account_type
+    }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
 
-    res.cookie('jwt', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
+    res.cookie('jwt', token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'Lax',
+      maxAge: 3600000
+    });
+
     res.redirect('/account?message=Account updated successfully');
   } catch (error) {
     next(error);
   }
 }
 
-/* ****************************************
- * Update Password
- * *************************************** */
 async function updatePassword(req, res, next) {
   try {
     const { account_id, account_password } = req.body;
@@ -288,17 +263,11 @@ async function updatePassword(req, res, next) {
   }
 }
 
-/* ****************************************
- * Logout Process
- * *************************************** */
 function logout(req, res) {
   res.clearCookie('jwt');
   res.redirect('/account/login?message=You have been logged out');
 }
 
-/* ****************************************
- * Deliver account management view
- * *************************************** */
 async function buildManagement(req, res, next) {
   try {
     res.render('account/management', {
@@ -312,9 +281,6 @@ async function buildManagement(req, res, next) {
   }
 }
 
-/* ****************************************
- * Deliver account home view
- * *************************************** */
 async function buildAccount(req, res, next) {
   try {
     const accountData = {
@@ -337,9 +303,6 @@ async function buildAccount(req, res, next) {
   }
 }
 
-/* ****************************************
- * Export all controller functions
- * *************************************** */
 module.exports = {
   buildLogin,
   accountLogin,
