@@ -207,7 +207,7 @@ module.exports = {
   getClassifications,
   getInventoryByClassificationId,
   getVehicleById,
-  getInventoryByCategory, // ✅ Added function to get inventory by category
+  getInventoryByCategory,
   addClassification,
   checkClassificationExists,
   getClassificationsWithDropdown,
