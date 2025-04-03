@@ -23,6 +23,8 @@ const pool = require("./database");
 app.use(express.json()); // Parse JSON requests
 app.use(express.urlencoded({ extended: true })); // Handle form submissions
 app.use(express.static(path.join(__dirname, "public"))); // Serve static files
+
+// Adiciona nav dinamicamente para todas as views
 app.use(async (req, res, next) => {
   try {
     const nav = await utilities.getNav(req.url);
@@ -33,6 +35,7 @@ app.use(async (req, res, next) => {
     next();
   }
 });
+
 /* ***********************
  * View Engine and Templates
  *************************/
@@ -44,10 +47,9 @@ app.set("layout", "./layouts/layout"); // Not at views root
  * Routes
  *************************/
 app.use(staticRoutes);
-// Inventory routes
 app.use("/inventory", inventoryRoute);
 
-// Index route
+// Home route
 app.get("/", baseController.buildHome);
 
 /* ***********************
@@ -95,14 +97,10 @@ app.get("/inventory", async (req, res) => {
     res.status(500).send("Error fetching inventory");
   }
 });
-                          
-
-
 
 /* ***********************
  * File Not Found Route - must be last route in list
  *************************/
-// Middleware to catch all errors
 app.use((err, req, res, next) => {
   console.error("❌ Server error:", err);
   res.status(500).send("Internal Server Error");
@@ -113,19 +111,12 @@ app.use(async (req, res, next) => {
 });
 
 /* ***********************
- * Local Server Information
- * Values from .env (environment) file
- *************************/
-const port = process.env.PORT || 5500;
-const host = process.env.HOST || "localhost";
-
-/* ***********************
  * Express Error Handler
  * Place after all other middleware
  *************************/
 app.use(async (err, req, res, next) => {
   try {
-    let nav = await utilities.getNav(); // Load navigation dynamically
+    const nav = await utilities.getNav();
     console.error(`❌ Error at: "${req.originalUrl}": ${err.message}`);
     res.status(err.status || 500).render("errors/error", {
       title: err.status || "Server Error",
@@ -137,7 +128,10 @@ app.use(async (err, req, res, next) => {
     res.status(500).send("Internal Server Error");
   }
 });
-// Temporary debug route (add just before error handlers)
+
+/* ***********************
+ * Temporary route to list registered routes
+ *************************/
 app.get('/routes', (req, res) => {
   const routes = [];
   app._router.stack.forEach((middleware) => {
@@ -156,16 +150,17 @@ app.get('/routes', (req, res) => {
     routes: routes
   });
 });
+
+/* ***********************
+ * Local Server Information
+ * Values from .env (environment) file
+ *************************/
+const port = process.env.PORT || 5500;
+const host = process.env.HOST || "localhost";
+
 /* ***********************
  * Log statement to confirm server operation
  *************************/
 app.listen(port, () => {
   console.log(`🚀 App listening on http://${host}:${port}`);
-});
-
-const utilities = require('./utilities');
-
-app.use(async (req, res, next) => {
-  res.locals.nav = await utilities.getNav();
-  next();
 });
