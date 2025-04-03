@@ -1,0 +1,148 @@
+
+
+/* Login container */
+.login-container {
+  width: 90%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Main form panel */
+.login-panel {
+  background-color: #0099cc;
+  border-radius: 5px;
+  padding: 20px;
+  color: white;
+  width: 100%;
+}
+
+/* Form groups */
+.form-group {
+  margin-bottom: 15px;
+}
+
+/* Labels */
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 16px;
+}
+
+/* Input fields */
+.form-control {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 0;
+  background-color: white;
+  font-size: 14px;
+  height: 35px;
+}
+
+/* Password hint text */
+.password-hint {
+  font-style: italic;
+  margin: 5px 0 15px 0;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+/* Show Password button */
+.show-password-btn {
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 15px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+/* Login button */
+.login-btn {
+  background-color: #f0f0f0;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 5px 15px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+/* Signup link */
+.signup-link {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.signup-link a {
+  color: #66ccff;
+  text-decoration: underline;
+}
+
+h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+.form-group input{
+  width: 90%;
+  height: 25px;
+  background-color: white;
+  
+  border-radius: 10px;
+}
+
+
+/* Account Management Page */
+.account-management {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+
+
+.welcome-section h2 {
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+.account-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.account-info {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 8px;
+}
+
+.info-list {
+  list-style: none;
+  padding: 0;
+}
+
+.info-list li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.info-list li:last-child {
+  border-bottom: none;
+}
+
+.info-list strong {
+  display: inline-block;
+  width: 120px;
+  color: #555;
+}
